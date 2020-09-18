@@ -24,12 +24,12 @@ async function run(): Promise<void> {
             return;
         }
 
-        if (utils.isExactKeyMatch(primaryKey, state)) {
-            core.info(
-                `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
-            );
-            return;
-        }
+        // if (utils.isExactKeyMatch(primaryKey, state)) {
+        //     core.info(
+        //         `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
+        //     );
+        //     return;
+        // }
 
         const cachePaths = utils.getInputAsArray(Inputs.Path, {
             required: true
@@ -38,6 +38,7 @@ async function run(): Promise<void> {
         try {
             await cache.saveCache(cachePaths, primaryKey);
         } catch (error) {
+            console.log("error", error);
             if (error.name === cache.ValidationError.name) {
                 throw error;
             } else if (error.name === cache.ReserveCacheError.name) {
